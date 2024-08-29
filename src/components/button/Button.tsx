@@ -1,8 +1,8 @@
-import React, {ButtonHTMLAttributes} from "react";
+import React, {ButtonHTMLAttributes, ComponentPropsWithoutRef} from "react";
 import styled from "styled-components";
 
 
-export const Button = ({title, onClick, disabled}: ButtonHTMLAttributes<HTMLButtonElement>) => {
+export const Button = ({title, onClick, disabled}: ComponentPropsWithoutRef<'button'>) => {
     return <StyledButton disabled = {disabled} onClick = {onClick}>{title}</StyledButton>
 }
 

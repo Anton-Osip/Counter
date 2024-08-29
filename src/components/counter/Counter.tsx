@@ -9,29 +9,37 @@ type CounterPropsType = {
     count: number
     minMax: number[]
     countError: string[]
-    settingsError:string
+    settingsError: string
     addOne: () => void
-    resetValue: () => void
+    resetCount: () => void
 }
 
-export const Counter: React.FC<CounterPropsType> = ({count, minMax, countError, addOne, resetValue,settingsError}: CounterPropsType) => {
+export const Counter: React.FC<CounterPropsType> = (props: CounterPropsType) => {
+    const {
+        count, minMax, countError, addOne, resetCount, settingsError
+    } = props
+
+    const isIncButtonDisabled = count === minMax[1] || settingsError !== ''
+    const isResetButtonDisabled = count === minMax[0] || settingsError !== ''
+    const progressbarFill = (100 * (count - minMax[0])) / (minMax[1] - minMax[0])
+
     return (
         <s.StyledContainer>
             <Display count = {count}
                      minMax = {minMax}
                      error = {countError}
-                     settingsError={settingsError}
+                     settingsError = {settingsError}
             />
-            <Progressbar fill = {(100 * (count - minMax[0])) / (minMax[1] - minMax[0])}/>
+            <Progressbar fill = {progressbarFill}/>
             <Controllers>
                 <Button
                     title = "Inc"
                     onClick = {addOne}
-                    disabled = {count === minMax[1]}/>
+                    disabled = {isIncButtonDisabled}/>
                 <Button
                     title = "Reset"
-                    onClick = {resetValue}
-                    disabled = {count === minMax[0]}/>
+                    onClick = {resetCount}
+                    disabled = {isResetButtonDisabled}/>
             </Controllers>
         </s.StyledContainer>)
 }
