@@ -1,0 +1,19 @@
+*, *:after, *:before {
+    box-sizing: border-box
+}
+
+.App {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    background: rgb(0, 85, 102);
+    background: radial-gradient(circle, rgba(0, 85, 102, 1) 0%, rgba(0, 0, 0, 1) 100%);
+    width: 100%;
+    min-height: 100lvh;
+}
+
+
+
+
+
