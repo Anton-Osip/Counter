@@ -1,14 +1,20 @@
 import styled from "styled-components";
 import React from "react";
 
-type ScoreboardPropsTYpe = { error: string[], count: number, minMax: number[] }
+type ScoreboardPropsTYpe = { error: string[], count: number, minMax: number[], settingsError: string }
 
-export const Display: React.FC<ScoreboardPropsTYpe> = ({error, count, minMax}: ScoreboardPropsTYpe) => {
+export const Display: React.FC<ScoreboardPropsTYpe> = ({error, count, minMax, settingsError}: ScoreboardPropsTYpe) => {
+
+    const displayOutput = settingsError === '' ?
+        (
+            (error[0].length !== 0 || error[1].length !== 0) ?
+                <Value isMax = {true}>{error}</Value> :
+                <Value isMax = {minMax[1] === count}>{count}</Value>
+        ) : <Value isMax>{settingsError}</Value>
+
     return (
         <StyledScoreboard>
-            {(error[0].length !== 0 || error[1].length !== 0) ? <Value isMax = {true}>{error}</Value> :
-                <Value isMax = {minMax[1] === count}>{count}</Value>}
-
+            {displayOutput}
         </StyledScoreboard>
     )
 }

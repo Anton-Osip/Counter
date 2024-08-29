@@ -8,17 +8,20 @@ import {Button} from "../button/Button";
 type CounterPropsType = {
     count: number
     minMax: number[]
-    error: string[]
+    countError: string[]
+    settingsError:string
     addOne: () => void
     resetValue: () => void
 }
 
-export const Counter: React.FC<CounterPropsType> = ({count, minMax, error, addOne, resetValue}: CounterPropsType) => {
+export const Counter: React.FC<CounterPropsType> = ({count, minMax, countError, addOne, resetValue,settingsError}: CounterPropsType) => {
     return (
         <s.StyledContainer>
             <Display count = {count}
                      minMax = {minMax}
-                     error = {error}/>
+                     error = {countError}
+                     settingsError={settingsError}
+            />
             <Progressbar fill = {(100 * (count - minMax[0])) / (minMax[1] - minMax[0])}/>
             <Controllers>
                 <Button

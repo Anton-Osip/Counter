@@ -7,15 +7,17 @@ import {Settings} from "./components/settings/Settings";
 function App() {
     const [minMax, setMinMax] = useState<number[]>([2, 5]);
     const [count, setCount] = useState<number>(minMax[0]);
-    const [error, setError] = useState<string[]>(['', '']);
+    const [countError, setCountError] = useState<string[]>(['', '']);
+    const [settingsError, setSettingsError] = useState<string>('')
 
     useEffect(() => {
         setCount(minMax[0])
     }, [minMax])
 
+
     const addOne = useCallback<() => void>(() => {
         if (count < minMax[1]) {
-            setCount(prevState => prevState += 1)
+            setCount(count + 1)
         }
     }, [count, minMax])
 
@@ -26,9 +28,10 @@ function App() {
 
     return (
         <div className = "App">
-            <Settings setMinMax = {setMinMax} setCount = {setCount} minMax = {minMax} setError = {setError}
-                      error = {error}/>
-            <Counter count = {count} minMax = {minMax} addOne = {addOne} resetValue = {resetValue} error = {error}/>
+            <Settings setMinMax = {setMinMax} minMax = {minMax} setCountError = {setCountError}
+                      countError = {countError} setSettingsError = {setSettingsError}/>
+            <Counter count = {count} minMax = {minMax} addOne = {addOne} resetValue = {resetValue}
+                     countError = {countError} settingsError = {settingsError}/>
         </div>
     );
 }

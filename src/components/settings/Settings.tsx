@@ -1,17 +1,17 @@
-import React, {ChangeEvent, MouseEvent, useEffect, useRef, useState} from "react";
+import React, {ChangeEvent, MouseEvent, useEffect,  useState} from "react";
 import styled from "styled-components";
 import {Button} from "../button/Button";
 
 type SettingsProps = {
     minMax: number[]
-    error: string[]
+    countError: string[]
     setMinMax: (minMax: number[]) => void
-    setCount: (count: number) => void
-    setError: (error: string[]) => void
+    setCountError: (countError: string[]) => void
+    setSettingsError:(error:string) => void
 }
 
 
-export const Settings: React.FC<SettingsProps> = ({setMinMax, setCount, minMax, setError, error}: SettingsProps) => {
+export const Settings: React.FC<SettingsProps> = ({setMinMax, setSettingsError, minMax, setCountError, countError}: SettingsProps) => {
     const [minValue, setMinValue] = useState<number>(minMax[0])
     const [maxValue, setMaxValue] = useState<number>(minMax[1])
 
@@ -21,12 +21,15 @@ export const Settings: React.FC<SettingsProps> = ({setMinMax, setCount, minMax, 
         e.preventDefault()
 
         if (minValue < 0) {
-            setError(['Incorrect Value', ''])
+            setCountError(['Incorrect Value', ''])
+            setSettingsError('Incorrect Value')
         } else if (maxValue <= minValue) {
-            setError(['', 'Incorrect Value'])
+            setCountError(['', 'Incorrect Value'])
+            setSettingsError('Incorrect Value')
         } else {
             setMinMax([minValue, maxValue])
-            setError(['', ''])
+            setCountError(['', ''])
+            setSettingsError('')
         }
 
     }
@@ -52,12 +55,12 @@ export const Settings: React.FC<SettingsProps> = ({setMinMax, setCount, minMax, 
             <Wrapper>
                 <InputWrapper>
                     <Label htmlFor = "min">Start value :</Label>
-                    <Input value = {minValue} onChange = {onChangeMinValue} error = {error[0].length !== 0}
+                    <Input value = {minValue} onChange = {onChangeMinValue} error = {countError[0].length !== 0}
                            type = "number" id = "min"/>
                 </InputWrapper>
                 <InputWrapper>
                     <Label htmlFor = "max">Max value :</Label>
-                    <Input value = {maxValue} onChange = {onChangeMaxValue} error = {error[1].length !== 0}
+                    <Input value = {maxValue} onChange = {onChangeMaxValue} error = {countError[1].length !== 0}
                            type = "number" id = "max"/>
                 </InputWrapper>
             </Wrapper>
