@@ -1,35 +1,41 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {Counter} from "./components/counter/Counter";
 import {Settings} from "./components/settings/Settings";
+import {useDispatch, useSelector} from "react-redux";
+import {RootStoreType} from "./store/store";
+import {CounterStateType} from "./store/reducers/countReducer";
+import {incrementCountAC, resetCountAC} from "./store/actions/counterActionsCreator";
 
 
 function App() {
-    const [minMax, setMinMax] = useState<number[]>([2, 5]);
-    const [count, setCount] = useState<number>(minMax[0]);
-    const [countError, setCountError] = useState<string[]>(['', '']);
-    const [settingsError, setSettingsError] = useState<string>('')
 
+    const {
+        minMax,
+        count,
+        countError,
+        settingsError
+    } = useSelector<RootStoreType, CounterStateType>(state => state.counter)
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        setCount(minMax[0])
-    }, [minMax])
+        dispatch(resetCountAC())
+    }, [dispatch, minMax])
 
-    const addOne = () => {
+    const incrementCount = () => {
         if (count < minMax[1]) {
-            setCount(count + 1)
+            dispatch(incrementCountAC())
         }
     }
-
     const resetCount = () => {
-        setCount(minMax[0])
+        dispatch(resetCountAC())
     }
 
     return (
         <div className = "App">
-            <Settings setMinMax = {setMinMax} minMax = {minMax} setCountError = {setCountError}
-                      countError = {countError} setSettingsError = {setSettingsError}/>
-            <Counter count = {count} minMax = {minMax} addOne = {addOne} resetCount = {resetCount}
+            <Settings minMax = {minMax} countError = {countError}/>
+            <Counter count = {count} minMax = {minMax} incrementCount = {incrementCount} resetCount = {resetCount}
                      countError = {countError} settingsError = {settingsError}/>
         </div>
     );

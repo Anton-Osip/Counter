@@ -1,35 +1,34 @@
-import React, {ChangeEvent, MouseEvent, useEffect,  useState} from "react";
+import React, {ChangeEvent, MouseEvent, useEffect, useState} from "react";
 import styled from "styled-components";
 import {Button} from "../button/Button";
+import {useDispatch} from "react-redux";
+import {setCounterErrorAC, setMinMaxAC, setSettingsErrorAC} from "../../store/actions/counterActionsCreator";
 
 type SettingsProps = {
     minMax: number[]
     countError: string[]
-    setMinMax: (minMax: number[]) => void
-    setCountError: (countError: string[]) => void
-    setSettingsError:(error:string) => void
 }
 
 
-export const Settings: React.FC<SettingsProps> = ({setMinMax, setSettingsError, minMax, setCountError, countError}: SettingsProps) => {
+export const Settings: React.FC<SettingsProps> = ({minMax, countError}: SettingsProps) => {
     const [minValue, setMinValue] = useState<number>(minMax[0])
     const [maxValue, setMaxValue] = useState<number>(minMax[1])
-
     const [disabled, setDisabled] = useState<boolean>(true)
+    const dispatch = useDispatch()
 
     const setMinMaxHandler = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
 
         if (minValue < 0) {
-            setCountError(['Incorrect Value', ''])
-            setSettingsError('Incorrect Value')
+            dispatch(setCounterErrorAC(['Incorrect Value', '']))
+            dispatch(setSettingsErrorAC('Incorrect Value'))
         } else if (maxValue <= minValue) {
-            setCountError(['', 'Incorrect Value'])
-            setSettingsError('Incorrect Value')
+            dispatch(setCounterErrorAC(['Incorrect Value', '']))
+            dispatch(setSettingsErrorAC('Incorrect Value'))
         } else {
-            setMinMax([minValue, maxValue])
-            setCountError(['', ''])
-            setSettingsError('')
+            dispatch(setMinMaxAC([minValue, maxValue]))
+            dispatch(setCounterErrorAC(['', '']))
+            dispatch(setSettingsErrorAC(''))
         }
 
     }
@@ -48,8 +47,6 @@ export const Settings: React.FC<SettingsProps> = ({setMinMax, setSettingsError, 
             setDisabled(false)
         }
     }, [minValue, maxValue, minMax])
-
-
     return (
         <StyledForm>
             <Wrapper>

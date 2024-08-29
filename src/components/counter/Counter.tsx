@@ -10,13 +10,13 @@ type CounterPropsType = {
     minMax: number[]
     countError: string[]
     settingsError: string
-    addOne: () => void
+    incrementCount: () => void
     resetCount: () => void
 }
 
 export const Counter: React.FC<CounterPropsType> = (props: CounterPropsType) => {
     const {
-        count, minMax, countError, addOne, resetCount, settingsError
+        count, minMax, countError, incrementCount, resetCount, settingsError
     } = props
 
     const isIncButtonDisabled = count === minMax[1] || settingsError !== ''
@@ -34,7 +34,7 @@ export const Counter: React.FC<CounterPropsType> = (props: CounterPropsType) => 
             <Controllers>
                 <Button
                     title = "Inc"
-                    onClick = {addOne}
+                    onClick = {incrementCount}
                     disabled = {isIncButtonDisabled}/>
                 <Button
                     title = "Reset"
